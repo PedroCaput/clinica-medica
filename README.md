@@ -27,16 +27,22 @@ classDiagram
     }
     
     class Appointment {
+        - String appointmentType
+    }
+    
+    class Schedule {
         - Doctor doctor
+        - String specialty
         - Patient patient
-        - String day
-        - String time
+        - String[] weekdays
+        - String[] consultationHours
+        - String[] surgeryHours
     }
     
     Person "1" <-- "1" Patient : has
     Patient "1" *-- "1" HealthPlan : has
     Doctor "1" <-- "1" Person : has
-    Doctor "1" <-- "n" Appointment : consults
-    Patient "1" <-- "n" Appointment : has
-
+    Doctor "1" <-- "n" Schedule : has
+    Patient "1" <-- "n" Schedule : has
+    Schedule "1" *-- "n" Appointment : has
 ```
