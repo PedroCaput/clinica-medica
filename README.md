@@ -5,6 +5,7 @@
 ```mermaid
 classDiagram
     class Person {
+        - Long id
         - String name
         - int age
         - String gender
@@ -12,6 +13,7 @@ classDiagram
     }
     
     class Patient {
+        - Long id
         - Person person
         - HealthPlan healthPlan
     }
@@ -22,6 +24,7 @@ classDiagram
     }
     
     class Doctor {
+        - Long id
         - Person person
         - String specialty
     }
@@ -45,5 +48,4 @@ classDiagram
     Doctor "1" <-- "n" Schedule : has
     Patient "1" <-- "n" Schedule : has
     Schedule "1" --> "1" Appointment : has
-
 ```
