@@ -1,9 +1,10 @@
 package com.example.clinicamedica.domain.model;
 
+import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_schedule")
-public class Schedule {
+public class Schedule implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +19,7 @@ public class Schedule {
     @OneToOne(cascade = CascadeType.ALL)
     private Appointment appointmentType;
 
-
+    @Override
     public Long getId() {
         return id;
     }

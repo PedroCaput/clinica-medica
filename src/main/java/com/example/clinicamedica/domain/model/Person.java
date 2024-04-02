@@ -1,5 +1,6 @@
 package com.example.clinicamedica.domain.model;
 
+import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 import org.hibernate.annotations.IdGeneratorType;
 
 @Entity(name = "tb_person")
-public class Person {
+public class Person implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +16,7 @@ public class Person {
     private int age;
     private String gender;
     private String motherName;
-
+    @Override
     public Long getId() {
         return id;
     }

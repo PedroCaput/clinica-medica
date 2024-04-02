@@ -1,23 +1,15 @@
 package com.example.clinicamedica.domain.model;
 
+import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_doctor")
 public class Doctor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
     private Person person;
     private String specialty;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Person getPerson() {
         return person;
