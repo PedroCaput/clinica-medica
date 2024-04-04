@@ -1,18 +1,17 @@
 package com.example.clinicamedica.domain.model;
 
-import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity(name = "tb_health_plan")
-public class HealthPlan implements Identifiable {
+public class HealthPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String healthPlanName;
-    @Override
+
     public Long getId() {
         return id;
     }
