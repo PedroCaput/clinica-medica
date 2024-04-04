@@ -1,6 +1,5 @@
 package com.example.clinicamedica.domain.model;
 
-import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_doctor")
