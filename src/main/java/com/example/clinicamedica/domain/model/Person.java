@@ -1,22 +1,19 @@
 package com.example.clinicamedica.domain.model;
 
-import com.example.clinicamedica.domain.model.identifiable.Identifiable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.hibernate.annotations.IdGeneratorType;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name = "tb_person")
-public class Person implements Identifiable {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "person_id")
     private Long id;
     private String name;
-    private int age;
+    private LocalDate birthDate;
     private String gender;
     private String motherName;
-    @Override
+
     public Long getId() {
         return id;
     }
@@ -33,12 +30,12 @@ public class Person implements Identifiable {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getGender() {

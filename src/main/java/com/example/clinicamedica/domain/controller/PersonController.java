@@ -18,15 +18,15 @@ public class PersonController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id){
-        var person = personService.findById(id);
+        var person = personService.findPersonById(id);
         return ResponseEntity.ok(person);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Person> create(@RequestBody Person personToCreate){
-        var personCreated = personService.create(personToCreate);
+        var personCreated = personService.createPerson(personToCreate);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{id}")
+                .path("/{id}")
                 .buildAndExpand(personCreated.getId())
                 .toUri();
         return ResponseEntity.created(location).body(personToCreate);

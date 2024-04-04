@@ -1,10 +1,9 @@
 package com.example.clinicamedica.domain.model;
 
-import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_doctor")
-public class Doctor {
+public class Doctor extends Person {
     @Id
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")

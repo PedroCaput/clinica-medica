@@ -1,25 +1,25 @@
 package com.example.clinicamedica.domain.model;
 
-import com.example.clinicamedica.domain.model.identifiable.Identifiable;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_patient")
-public class Patient implements Identifiable {
+public class Patient extends Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @OneToOne(cascade = CascadeType.ALL)
     private HealthPlan healthPlan;
-    @Override
-    public Long getId() {
-        return id;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
+    public HealthPlan getHealthPlan(){return healthPlan;}
+
+    public void setHealthPlan(HealthPlan healthPlan) {this.healthPlan = healthPlan;}
 }
