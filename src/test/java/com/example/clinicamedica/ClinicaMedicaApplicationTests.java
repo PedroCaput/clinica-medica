@@ -45,7 +45,7 @@ class ClinicaMedicaApplicationTests {
 
 	@Test
 	void testScenario1_GetUserNotFound() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string("Resource ID not found."));
 	}
@@ -53,7 +53,7 @@ class ClinicaMedicaApplicationTests {
 	@Test
 	void testScenario2_CreateUser() throws Exception {
 		Person user = createPerson("Pedro", "1991-04-04", "masculino", "Maria");
-		mockMvc.perform(MockMvcRequestBuilders.post("/users")
+		mockMvc.perform(MockMvcRequestBuilders.post("/person")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(user)))
 				.andExpect(status().isCreated())
@@ -63,7 +63,7 @@ class ClinicaMedicaApplicationTests {
 
 	@Test
 	void testScenario3_GetUserAfterCreation() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name").value("Pedro"));
 	}
@@ -71,7 +71,7 @@ class ClinicaMedicaApplicationTests {
 	@Test
 	void testScenario4_UpdateUser() throws Exception {
 		Person user = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
-		mockMvc.perform(MockMvcRequestBuilders.put("/users/1")
+		mockMvc.perform(MockMvcRequestBuilders.put("/person")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(user)))
 				.andExpect(status().isCreated())
@@ -80,27 +80,27 @@ class ClinicaMedicaApplicationTests {
 
 	@Test
 	void testScenario5_GetUserAfterUpdate() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
 	}
 
 	@Test
 	void testScenario6_DeleteUser() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.delete("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
 				.andExpect(status().isNoContent());
 	}
 
 	@Test
 	void testScenario7_GetUserAfterDeletion() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string("Resource ID not found."));
 	}
 
 	@Test
 	void testScenario8_DeleteNonexistentUser() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.delete("/users/1"))
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
 				.andExpect(status().isUnprocessableEntity())
 				.andExpect(content().string("This person does not exists."));
 	}
@@ -108,7 +108,7 @@ class ClinicaMedicaApplicationTests {
 	@Test
 	void testScenario9_UpdateNonexistentUser() throws Exception {
 		Person user = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
-		mockMvc.perform(MockMvcRequestBuilders.put("/users/1")
+		mockMvc.perform(MockMvcRequestBuilders.put("/person/1")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(user)))
 				.andExpect(status().isUnprocessableEntity())
