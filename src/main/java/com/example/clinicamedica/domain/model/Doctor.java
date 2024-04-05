@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @JsonIgnoreProperties({"person"})
 public class Doctor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "person_id")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")

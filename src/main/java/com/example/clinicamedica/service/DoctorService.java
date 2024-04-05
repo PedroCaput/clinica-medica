@@ -8,6 +8,7 @@ import com.example.clinicamedica.domain.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -26,14 +27,22 @@ public class DoctorService {
         return doctorRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
-    public Doctor createDoctor(Long id,Doctor doctorToCreate){
+    public Doctor findDoctorByPersonId(Long id){
+        return doctorRepository.findDoctorByPersonId(id).orElseThrow(NoSuchElementException::new);
+    }
+
+    public Doctor createDoctor(Doctor doctorToCreate){
+        Long id = doctorToCreate.getId();
+        String specialty = doctorToCreate.getSpecialty();
         if(id != null && doctorRepository.existsById(id)){
             throw new IllegalArgumentException("This doctor ID already exists.");
         }
         else {
             try{
-                if(personRepository.existsById(doctorToCreate.getId())){
-                    return doctorRepository.save(doctorToCreate);
+                // Preciso checar se existe uma pessoa com esse ID
+                if(personRepository.existsById(id)){
+                    doctorRepository.saveDoctorByPersonId(id, specialty);
+                    return doctorRepository.findById(id).orElseThrow(NoSuchElementException::new);
                 }
                 throw new IllegalArgumentException("The ID must be the same of person ID.");
             }

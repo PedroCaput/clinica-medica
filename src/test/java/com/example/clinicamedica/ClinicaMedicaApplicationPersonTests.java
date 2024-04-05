@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ClinicaMedicaApplicationTests {
+class ClinicaMedicaApplicationPersonTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -44,73 +44,93 @@ class ClinicaMedicaApplicationTests {
 	}
 
 	@Test
-	void testScenario1_GetUserNotFound() throws Exception {
+	void testScenario1_GetPersonNotFound() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string("Resource ID not found."));
 	}
 
 	@Test
-	void testScenario2_CreateUser() throws Exception {
-		Person user = createPerson("Pedro", "1991-04-04", "masculino", "Maria");
+	void testScenario2_CreatePerson() throws Exception {
+		Person person = createPerson("Pedro", "1991-04-04", "masculino", "Maria");
 		mockMvc.perform(MockMvcRequestBuilders.post("/person")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(user)))
+						.content(objectMapper.writeValueAsString(person)))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").exists())
 				.andExpect(jsonPath("$.name").value("Pedro"));
 	}
 
 	@Test
-	void testScenario3_GetUserAfterCreation() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.name").value("Pedro"));
-	}
-
-	@Test
-	void testScenario4_UpdateUser() throws Exception {
-		Person user = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
+	void testScenario3_UpdateNonexistentPerson() throws Exception {
+		Person person = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
 		mockMvc.perform(MockMvcRequestBuilders.put("/person")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(user)))
-				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
+						.content(objectMapper.writeValueAsString(person)))
+				.andExpect(status().isUnprocessableEntity())
+				.andExpect(content().string("This person does not exists."));
 	}
 
 	@Test
-	void testScenario5_GetUserAfterUpdate() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
-	}
-
-	@Test
-	void testScenario6_DeleteUser() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
-				.andExpect(status().isNoContent());
-	}
-
-	@Test
-	void testScenario7_GetUserAfterDeletion() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
-				.andExpect(status().isNotFound())
-				.andExpect(content().string("Resource ID not found."));
-	}
-
-	@Test
-	void testScenario8_DeleteNonexistentUser() throws Exception {
+	void testScenario4_DeleteNonexistentPerson() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
 				.andExpect(status().isUnprocessableEntity())
 				.andExpect(content().string("This person does not exists."));
 	}
 
 	@Test
-	void testScenario9_UpdateNonexistentUser() throws Exception {
+	void testScenario5_CompleteRequestsTest() throws Exception {
+		// Test Scenario 1: Get User Not Found
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
+				.andExpect(status().isNotFound())
+				.andExpect(content().string("Resource ID not found."));
+
+		// Test Scenario 2: Create User
+		Person person = createPerson("Pedro", "1991-04-04", "masculino", "Maria");
+		mockMvc.perform(MockMvcRequestBuilders.post("/person")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(person)))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.id").exists())
+				.andExpect(jsonPath("$.name").value("Pedro"));
+
+		// Test Scenario 3: Get User After Creation
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.name").value("Pedro"));
+
+		// Test Scenario 4: Update User
 		Person user = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
-		mockMvc.perform(MockMvcRequestBuilders.put("/person/1")
+		mockMvc.perform(MockMvcRequestBuilders.put("/person")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(user)))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
+
+		// Test Scenario 5: Get User After Update
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
+
+		// Test Scenario 6: Delete User
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
+				.andExpect(status().isNoContent());
+
+		// Test Scenario 7: Get User After Deletion
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
+				.andExpect(status().isNotFound())
+				.andExpect(content().string("Resource ID not found."));
+
+		// Test Scenario 8: Delete Nonexistent User
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
+				.andExpect(status().isUnprocessableEntity())
+				.andExpect(content().string("This person does not exists."));
+
+		// Test Scenario 9: Update Nonexistent User
+		Person nonExistentUser = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
+		mockMvc.perform(MockMvcRequestBuilders.put("/person")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(nonExistentUser)))
 				.andExpect(status().isUnprocessableEntity())
 				.andExpect(content().string("This person does not exists."));
 	}

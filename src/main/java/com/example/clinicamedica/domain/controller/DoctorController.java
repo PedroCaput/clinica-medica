@@ -17,19 +17,19 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Doctor> findById(@PathVariable Long id){
-        var doctor = doctorService.findDoctorById(id);
+    public ResponseEntity<Doctor> findDoctorByPersonId(@PathVariable Long id){
+        var doctor = doctorService.findDoctorByPersonId(id);
         return ResponseEntity.ok(doctor);
     }
 
     @PostMapping()
-    public ResponseEntity<Doctor> createDoctor(@RequestBody Long id, Doctor doctorToCreate){
-        var doctorCreated = doctorService.createDoctor(id, doctorToCreate);
+    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctorToCreate){
+        var doctorCreated = doctorService.createDoctor(doctorToCreate);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(doctorCreated.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(doctorToCreate);
+        return ResponseEntity.created(location).body(doctorCreated);
     }
 
     @PutMapping()
