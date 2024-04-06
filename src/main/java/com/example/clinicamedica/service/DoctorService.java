@@ -52,8 +52,8 @@ public class DoctorService {
         }
     }
 
-    public Doctor updateDoctor(Long id, Doctor doctorToUpdate){
-        if(id == null || !doctorRepository.existsById(doctorToUpdate.getId()))
+    public Doctor updateDoctor(Doctor doctorToUpdate){
+        if(doctorToUpdate.getId() == null || !doctorRepository.existsById(doctorToUpdate.getId()))
         {
             throw new IllegalArgumentException("This doctor does not exists.");
         }

@@ -33,8 +33,8 @@ public class DoctorController {
     }
 
     @PutMapping()
-    public ResponseEntity<Doctor> alterDoctor(@RequestBody Long id, Doctor doctorToUpdate){
-        var doctorUpdated = doctorService.updateDoctor(id, doctorToUpdate);
+    public ResponseEntity<Doctor> alterDoctor(@RequestBody Doctor doctorToUpdate){
+        var doctorUpdated = doctorService.updateDoctor(doctorToUpdate);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(doctorToUpdate.getId())

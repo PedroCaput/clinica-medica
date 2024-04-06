@@ -1,5 +1,6 @@
 package com.example.clinicamedica.domain.model;
 
+import com.example.clinicamedica.domain.model.enums.AppointmentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,7 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String appointmentType;
+    private AppointmentType appointmentType;
 
     public Long getId() {
         return id;
@@ -20,11 +21,11 @@ public class Appointment {
         this.id = id;
     }
 
-    public String getAppointmentType() {
+    public AppointmentType getAppointmentType() {
         return appointmentType;
     }
 
-    public void setAppointmentType(String appointmentType) {
+    public void setAppointmentType(AppointmentType appointmentType) {
         this.appointmentType = appointmentType;
     }
 }

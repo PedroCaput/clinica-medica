@@ -80,12 +80,12 @@ class ClinicaMedicaApplicationPersonTests {
 
 	@Test
 	void testScenario5_CompleteRequestsTest() throws Exception {
-		// Test Scenario 1: Get User Not Found
+		// Test Scenario 1: Get Person Not Found
 		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string("Resource ID not found."));
 
-		// Test Scenario 2: Create User
+		// Test Scenario 2: Create Person
 		Person person = createPerson("Pedro", "1991-04-04", "masculino", "Maria");
 		mockMvc.perform(MockMvcRequestBuilders.post("/person")
 						.contentType(MediaType.APPLICATION_JSON)
@@ -94,12 +94,12 @@ class ClinicaMedicaApplicationPersonTests {
 				.andExpect(jsonPath("$.id").exists())
 				.andExpect(jsonPath("$.name").value("Pedro"));
 
-		// Test Scenario 3: Get User After Creation
+		// Test Scenario 3: Get Person After Creation
 		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name").value("Pedro"));
 
-		// Test Scenario 4: Update User
+		// Test Scenario 4: Update Person
 		Person user = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
 		mockMvc.perform(MockMvcRequestBuilders.put("/person")
 						.contentType(MediaType.APPLICATION_JSON)
@@ -107,26 +107,26 @@ class ClinicaMedicaApplicationPersonTests {
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
 
-		// Test Scenario 5: Get User After Update
+		// Test Scenario 5: Get Person After Update
 		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.name").value("Pedro Henrique Oliveira"));
 
-		// Test Scenario 6: Delete User
+		// Test Scenario 6: Delete Person
 		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
 				.andExpect(status().isNoContent());
 
-		// Test Scenario 7: Get User After Deletion
+		// Test Scenario 7: Get Person After Deletion
 		mockMvc.perform(MockMvcRequestBuilders.get("/person/1"))
 				.andExpect(status().isNotFound())
 				.andExpect(content().string("Resource ID not found."));
 
-		// Test Scenario 8: Delete Nonexistent User
+		// Test Scenario 8: Delete Nonexistent Person
 		mockMvc.perform(MockMvcRequestBuilders.delete("/person/1"))
 				.andExpect(status().isUnprocessableEntity())
 				.andExpect(content().string("This person does not exists."));
 
-		// Test Scenario 9: Update Nonexistent User
+		// Test Scenario 9: Update Nonexistent Person
 		Person nonExistentUser = uptadePerson(1L, "Pedro Henrique Oliveira", "1991-04-04", "masculino", "Maria da Glória");
 		mockMvc.perform(MockMvcRequestBuilders.put("/person")
 						.contentType(MediaType.APPLICATION_JSON)
