@@ -1,14 +1,12 @@
 package com.example.clinicamedica.service;
 
 
-import com.example.clinicamedica.domain.controller.exception.GlobalExceptionHandler;
 import com.example.clinicamedica.domain.model.Doctor;
 import com.example.clinicamedica.domain.repository.DoctorRepository;
 import com.example.clinicamedica.domain.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class DoctorService {

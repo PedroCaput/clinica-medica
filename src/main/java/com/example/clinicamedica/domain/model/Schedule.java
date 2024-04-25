@@ -1,52 +1,85 @@
 package com.example.clinicamedica.domain.model;
 
+import com.example.clinicamedica.domain.model.enums.AppointmentType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity(name = "tb_schedule")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Doctor doctor;
+    private Long scheduleId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Person person;
+    private Long doctorId;
+    private Long personId;
 
-    private String time;
+    private LocalDate date;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Appointment appointmentType;
+    private LocalTime time;
 
-    public Long getId() {
-        return id;
+    @Enumerated(EnumType.STRING)
+    private AppointmentType appointmentType;
+    private String specialty;
+
+    public Schedule(){}
+    public Schedule(Long scheduleId,
+                    Long doctorId, Long personId,
+                    LocalDate date, LocalTime time,
+                    AppointmentType appointmentType,
+                    String specialty){
+        this.scheduleId = scheduleId;
+        this.doctorId = doctorId;
+        this.personId = personId;
+        this.date = date;
+        this.time = time;
+        this.appointmentType = appointmentType;
+        this.specialty = specialty;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public Long getScheduleId() {
+        return scheduleId;
     }
 
-    public Person getPerson() {
-        return person;
+   public void setScheduleId(Long scheduleId) { this.scheduleId = scheduleId;}
+
+    public Long getDoctorId() {
+        return doctorId;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public String getTime() {
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
+    public LocalDate getDate() { return date; }
+
+    public void setDate(LocalDate date) { this.date = date; }
+
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(LocalTime time) { this.time = time; }
+
+    public AppointmentType getAppointmentType(){ return appointmentType; }
+
+    public void setAppointmentType(AppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
     }
 }

@@ -47,7 +47,8 @@ public class PersonController {
         boolean deleted = personService.deletePersonById(id);
         if (deleted) {
             return ResponseEntity.noContent().build(); // Retorna resposta 204 No Content
-        } else {
+        }
+        else {
             return ResponseEntity.notFound().build(); // Retorna resposta 404 Not Found se a pessoa não for encontrada
         }
     }

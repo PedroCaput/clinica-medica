@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity(name = "tb_doctor")
-@JsonIgnoreProperties({"person"})
 public class Doctor {
     @Id
-    @JoinColumn(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
